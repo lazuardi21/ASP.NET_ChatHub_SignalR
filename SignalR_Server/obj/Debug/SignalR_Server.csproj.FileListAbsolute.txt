@@ -52,7 +52,6 @@ D:\Work\FullStack\SignalR_Server\SignalR_Server\bin\roslyn\VBCSCompiler.exe
 D:\Work\FullStack\SignalR_Server\SignalR_Server\bin\roslyn\VBCSCompiler.exe.config
 D:\Work\FullStack\SignalR_Server\SignalR_Server\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 D:\Work\FullStack\SignalR_Server\SignalR_Server\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Work\FullStack\SignalR_Server\SignalR_Server\obj\Debug\SignalR_Server.csproj.AssemblyReference.cache
 D:\Work\FullStack\SignalR_Server\SignalR_Server\obj\Debug\SignalR_Server.csproj.CoreCompileInputs.cache
 D:\Work\FullStack\SignalR_Server\SignalR_Server\obj\Debug\SignalR_Server.csproj.CopyComplete
 D:\Work\FullStack\SignalR_Server\SignalR_Server\obj\Debug\SignalR_Server.dll
@@ -71,3 +70,4 @@ D:\Work\FullStack\SignalR_Server\SignalR_Server\bin\Microsoft.Owin.xml
 D:\Work\FullStack\SignalR_Server\SignalR_Server\bin\Microsoft.Owin.Host.SystemWeb.xml
 D:\Work\FullStack\SignalR_Server\SignalR_Server\bin\Microsoft.Owin.Security.xml
 D:\Work\FullStack\SignalR_Server\SignalR_Server\bin\Newtonsoft.Json.xml
+D:\Work\FullStack\SignalR_Server\SignalR_Server\obj\Debug\SignalR_Server.csproj.AssemblyReference.cache

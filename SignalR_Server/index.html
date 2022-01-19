@@ -13,10 +13,35 @@
     </style>
 </head>
 <body>
+    <div class="row">
+        <div class="col-2">Connection Id</div>
+        <div class="col-6"><span id="ConnectionId"></span></div>
+    </div>
     <div class="container">
-        <input type="text" id="message" />
-        <input type="button" id="sendmessage" value="Send" />
-        <input type="hidden" id="displayname" />
+        <div>
+            <label>Name</label>
+            <span id="displayname" />
+        </div>
+        <div>
+            <label>Message</label>
+            <input type="text" id="message" />
+        </div>
+        <div>
+            <label>Recipient</label>
+            <input type="text" id="RecipientId" />
+        </div>
+
+    </div>
+    
+    <div>
+        <input type="button" id="sendmessage" value="SendToAll" />
+        
+    </div>
+    <div>
+        <input type="button" id="sendToUser" value="SendToUser" />
+        
+    </div>
+    <div>
         <ul id="discussion"></ul>
     </div>
     <!--Script references. -->
@@ -29,10 +54,20 @@
     <!--Add script to update the page and send messages.-->
     <script type="text/javascript">
         $(function () {
+            
             // Declare a proxy to reference the hub.
             var chat = $.connection.chatHub;
             // Create a function that the hub can call to broadcast messages.
             chat.client.broadcastMessage = function (name, message) {
+                // Html encode display name and message.
+                debugger;
+                var encodedName = $('<div />').text(name).html();
+                var encodedMsg = $('<div />').text(message).html();
+                // Add the message to the page.
+                $('#discussion').append('<li><strong>' + encodedName
+                    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+            };
+            chat.client.sendAsync = function (name, message) {
                 // Html encode display name and message.
                 var encodedName = $('<div />').text(name).html();
                 var encodedMsg = $('<div />').text(message).html();
@@ -41,18 +76,53 @@
                     + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
             };
             // Get the user name and store it to prepend to messages.
-            $('#displayname').val(prompt('Enter your name:', ''));
+            //$('#displayname').innerText(prompt('Enter your name:', '')).attr('readonly', 'readonly');
+            document.getElementById("displayname").innerText = prompt('Enter your name:', '');
             // Set initial focus to message input box.
             $('#message').focus();
+            //Check Connection if Disconnected
+            $.connection.hub.disconnected(function () {
+                alert('Connection disconnected, Server was Down')
+            });
             // Start the connection.
             $.connection.hub.start().done(function () {
+                
+                var ConnectionId = $.connection.hub.id;
+                document.getElementById("ConnectionId").innerText = ConnectionId;
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
-                    chat.server.send($('#displayname').val(), $('#message').val());
+                    chat.server.send($('#displayname')[0].innerHTML, $('#message').val());
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });
+                $('#sendToUser').click(function () {
+                    // Call the Send method on the hub.
+                    debugger
+                    var recipientConnectionId = document.getElementById("RecipientId").value;
+                    chat.server.sendToUser($('#displayname')[0].innerHTML, recipientConnectionId,$('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                    event.preventDefault();
+                });
+                //document.getElementById("sendToUser").addEventListener("click", function (event) {
+                //    var user = document.getElementById("displayname").value;
+                //    var recipientConnectionId = document.getElementById("RecipientId").value;
+                //    var message = document.getElementById("message").value;
+                //    $.connection.invoke("SendToUser", user, recipientConnectionId, message).catch(function (err) {
+                //        return console.error(err.toString());
+                //    });
+                //    event.preventDefault();
+                //});
             });
+
+            //chat.on("ReceiveMessage", function (user, message) {
+            //    debugger;
+            //    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            //    var encodedMsg = user + " says " + msg;
+            //    var li = document.createElement("li");
+            //    li.textContent = encodedMsg;
+            //    document.getElementById("discussion").appendChild(li);
+            //});
         });
     </script>
 </body>
